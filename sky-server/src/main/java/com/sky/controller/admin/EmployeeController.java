@@ -14,11 +14,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +49,7 @@ public class EmployeeController {
 
         //登录成功后，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
-        claims.put(JwtClaimsConstant.EMP_ID, employee.getId());
+        claims.put(JwtClaimsConstant.EMP_ID, employee.getId());//获取了id
         String token = JwtUtil.createJWT(
                 jwtProperties.getAdminSecretKey(),
                 jwtProperties.getAdminTtl(),
@@ -81,7 +79,8 @@ public class EmployeeController {
 
     @PostMapping
     @ApiOperation(value = "新增员工")
-    public Result<T> insert(@RequestBody EmployeeDTO employeeDTO) {
+    public Result<T> insert(@Valid @RequestBody EmployeeDTO employeeDTO){
+        log.info("新增员工{}", employeeDTO);
         employeeService.insert(employeeDTO);
         return Result.success();
     }

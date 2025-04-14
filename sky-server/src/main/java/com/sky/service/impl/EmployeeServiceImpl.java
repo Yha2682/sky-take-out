@@ -2,6 +2,7 @@ package com.sky.service.impl;
 
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.entity.Employee;
@@ -45,7 +46,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         //密码比对
-        // TODO 后期需要进行md5加密，然后再进行比对
+        // 对密码进行MD5加密
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
         if (!password.equals(employee.getPassword())) {
             //密码错误
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
@@ -62,20 +64,38 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * 添加用户
+     *
      * @param employeeDTO
      */
     // TODO CreateUser UpdateUser 还有校验规则待修改
     @Override
     public void insert(EmployeeDTO employeeDTO) {
-            Employee employee = new Employee();
-            BeanUtils.copyProperties(employeeDTO, employee);
-            employee.setCreateTime(LocalDateTime.now());
-            employee.setUpdateTime(LocalDateTime.now());
-            employee.setStatus(StatusConstant.ENABLE);
-            employee.setPassword(DigestUtils.md5DigestAsHex(DEFAULT_PASSWORD.getBytes()));
-            employee.setCreateUser(Long.valueOf("10L"));
-            employee.setUpdateUser(Long.valueOf("10L"));
-            employeeMapper.insert(employee);
+        // 获取前端传来的 username
+        String username = employeeDTO.getUsername();
+
+        // 根据 username 查找是否已存在
+        Employee existingEmployee = employeeMapper.findByUsername(username);
+        if (existingEmployee != null) {
+            throw new AccountLockedException(MessageConstant.ACCOUNT_ALREADY_EXISTS);
+        }
+
+        // 复制属性
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+
+        // 设置其他字段
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setStatus(StatusConstant.ENABLE);
+        employee.setPassword(DigestUtils.md5DigestAsHex(DEFAULT_PASSWORD.getBytes()));
+
+        //从登录用户信息中取
+        employee.setCreateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        // 插入数据库
+        employeeMapper.insert(employee);
     }
+
 
 }

@@ -23,4 +23,8 @@ public interface EmployeeMapper {
     @Insert("insert into employee (name, username, password, phone, sex, id_number, status, create_time, update_time, create_user, update_user) " +
             "VALUE (#{name},#{username},#{password},#{phone},#{sex},#{idNumber},#{status},#{createTime},#{updateTime},#{createUser},#{updateUser})")
     void insert(Employee employee);
+
+    // 通过用户名查询员工（用于判断重复）
+    @Select("SELECT * from employee where username=#{username}")
+    Employee findByUsername(String username);
 }
