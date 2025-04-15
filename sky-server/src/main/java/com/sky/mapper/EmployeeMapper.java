@@ -1,5 +1,7 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -27,4 +29,12 @@ public interface EmployeeMapper {
     // 通过用户名查询员工（用于判断重复）
     @Select("SELECT * from employee where username=#{username}")
     Employee findByUsername(String username);
+
+    /**
+     * 分页查询
+     * 动态查询，根据 name 模糊查询 @EmployeeMapper.xml
+     * @param employeePageQueryDTO
+     * @return
+     */
+    Page<Employee> page(EmployeePageQueryDTO employeePageQueryDTO);
 }
