@@ -15,12 +15,10 @@ import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
-import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -124,7 +122,44 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public void startOrStop(Integer status, Long id) {
-        employeeMapper.startOrStop(status,id);
+
+        Employee employee = Employee.builder()
+                .id(id)
+                .status(status)
+                .build();
+        employeeMapper.update(employee);
+    }
+
+    /**
+     * 根据员工id查找信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Employee findById(Long id) {
+        Employee employee =employeeMapper.findById(id);
+        employee.setPassword("****");
+        return employee;
+    }
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     */
+    @Override
+    public void updateById(EmployeeDTO employeeDTO) {
+        Employee employee = Employee.builder()
+                .id(employeeDTO.getId())
+                .idNumber(employeeDTO.getIdNumber())
+                .username(employeeDTO.getUsername())
+                .name(employeeDTO.getName())
+                .phone(employeeDTO.getPhone())
+                .sex(employeeDTO.getSex())
+                .updateTime(LocalDateTime.now())
+                .build();
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
     }
 
 

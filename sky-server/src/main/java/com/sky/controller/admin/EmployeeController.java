@@ -1,5 +1,6 @@
 package com.sky.controller.admin;
 
+import com.sky.anno.ValidIdCard;
 import com.sky.constant.JwtClaimsConstant;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
@@ -14,8 +15,10 @@ import com.sky.vo.EmployeeLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -97,9 +100,21 @@ public class EmployeeController {
 
     @PostMapping("/status/{status}")
     @ApiOperation(value = "员工状态修改")
-    public Result status(@PathVariable Integer status,Long id){
+    public Result<Object>  status(@PathVariable Integer status,Long id){
         log.info("员工状态修改参数：{},{}", status,id);
         employeeService.startOrStop(status,id);
+        return Result.success();
+    }
+    @GetMapping("/{id}")
+    @ApiOperation(value = "根据ID查询员工")
+    public Result<Object> findById(@PathVariable Long id){
+        Employee employee = employeeService.findById(id);
+        return Result.success(employee);
+    }
+    @PutMapping
+    @ApiOperation(value = "编辑员工信息")
+    public Result<Object> update(@Valid @RequestBody EmployeeDTO employeeDTO){
+        employeeService.updateById(employeeDTO);
         return Result.success();
     }
 }

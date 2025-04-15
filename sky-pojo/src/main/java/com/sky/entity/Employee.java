@@ -22,21 +22,17 @@ public class Employee implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    @NotEmpty
+
     private String username;
-    @NotEmpty
+
     private String name;
 
     private String password;
 
-    @NotEmpty
-    @Pattern(regexp = "^1[3-9]\\d{9}$"
-            ,message = "手机号必须是11位有效数字")
     private String phone;
-    @Pattern(regexp = "^([10])$")
+
     private String sex;
-    @NotNull
-    @ValidIdCard(message = "请输入有效的身份证号码")
+
     private String idNumber;
 
     private Integer status;
