@@ -32,12 +32,6 @@ public class Employee implements Serializable {
     @NotEmpty
     @Pattern(regexp = "^1[3-9]\\d{9}$"
             ,message = "手机号必须是11位有效数字")
-/*    ^1[3-9]\d{9}$
-- ^       : 字符串开始
-- 1       : 第一位必须是1
-- [3-9]   : 第二位是3-9之间的数字
-- \d{9}   : 后面跟着9位数字
-- $       : 字符串结束*/
     private String phone;
     @Pattern(regexp = "^([10])$")
     private String sex;
@@ -47,10 +41,10 @@ public class Employee implements Serializable {
 
     private Integer status;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 
     private Long createUser;
