@@ -8,8 +8,8 @@ import com.sky.result.PageResult;
 
 import javax.validation.Valid;
 
-public interface EmployeeService {
 
+public interface EmployeeService {
     /**
      * 员工登录
      * @param employeeLoginDTO
