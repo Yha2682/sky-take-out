@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import java.math.BigInteger;
+import java.util.List;
 
 @Mapper
 public interface CategoryMapper {
@@ -40,11 +40,18 @@ public interface CategoryMapper {
      * @param id
      */
     @Delete("DELETE from category where id = #{id}")
-    void delete(BigInteger id);
+    void delete(Long id);
 
     /**
      * 修改分类
      * @param category
      */
     void update(Category category);
+
+    /**
+     * 根据类型查询分类
+     * @param type
+     * @return
+     */
+    List<Category> list(Integer type);
 }

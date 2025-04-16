@@ -2,6 +2,7 @@ package com.sky.controller.admin;
 
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
+import com.sky.entity.Category;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.CategoryService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -56,7 +58,7 @@ public class CategoryController {
      */
     @DeleteMapping
     @ApiOperation(value = "根据id删除分类")
-    public Result<Object> deleteCategory(BigInteger id) {
+    public Result<Object> deleteCategory(Long id) {
         categoryService.delete(id);
         return Result.success();
     }
@@ -72,6 +74,13 @@ public class CategoryController {
         categoryService.update(categoryDTO);
         return Result.success("修改完成");
     }
+
+    /**
+     * 启用、禁用分类
+     * @param status
+     * @param id
+     * @return
+     */
     @PostMapping("/status/{status}")
     @ApiOperation(value = "修改分类状态")
     public Result<Object> updateStatus(@PathVariable Integer status,Long id) {
@@ -79,4 +88,15 @@ public class CategoryController {
         return Result.success();
     }
 
+    /**
+     * 根据类型查询分类
+     * @param type
+     * @return
+     */
+    @GetMapping("/list")
+    @ApiOperation(value = "根据类型查询分类")
+    public Result<List<Category>> listCategory(Integer type) {
+        List<Category> categories = categoryService.selectForType(type);
+        return Result.success(categories);
+    }
 }
