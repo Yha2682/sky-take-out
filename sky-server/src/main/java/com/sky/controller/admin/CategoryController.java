@@ -46,9 +46,14 @@ public class CategoryController {
      */
     @GetMapping("/page")
     @ApiOperation(value = "分类分页查询")
-    public Result<PageResult> pageCategory(CategoryPageQueryDTO categoryPageQueryDTO){
-        PageResult pageResult = categoryService.page(categoryPageQueryDTO);
-        return Result.success(pageResult);
+    public Result pageCategory(CategoryPageQueryDTO categoryPageQueryDTO,Integer type){
+        if(type==null){
+            PageResult pageResult = categoryService.page(categoryPageQueryDTO);
+            return Result.success(pageResult);
+        }
+        List<Category> categories = categoryService.selectForType(type);
+        return Result.success(categories);
+
     }
 
     /**
@@ -88,15 +93,14 @@ public class CategoryController {
         return Result.success();
     }
 
-    /**
-     * 根据类型查询分类
-     * @param type
-     * @return
-     */
-    @GetMapping("/list")
-    @ApiOperation(value = "根据类型查询分类")
-    public Result<List<Category>> listCategory(Integer type) {
-        List<Category> categories = categoryService.selectForType(type);
-        return Result.success(categories);
-    }
+//    /**
+//     * 根据类型查询分类
+//     * @param type
+//     * @return
+//     */
+//    @GetMapping("/list")
+//    @ApiOperation(value = "根据类型查询分类")
+//    public Result<List<Category>> listCategory(Integer type) {
+//
+//    }
 }
