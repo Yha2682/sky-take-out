@@ -42,7 +42,7 @@ public class AutoFileAspect {
         //获取到当前被拦截的方法的参数--实体对象
         Object[] args = joinPoint.getArgs();
 
-        if (args == null && args.length == 0) {
+        if (args == null || args.length == 0) {
             return;
         }
 
