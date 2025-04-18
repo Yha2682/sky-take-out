@@ -1,6 +1,6 @@
 package com.sky.validation;
 
-import com.sky.anno.ValidIdCard;
+import com.sky.annoaction.ValidIdCard;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

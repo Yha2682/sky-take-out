@@ -1,6 +1,6 @@
 package com.sky.dto;
 
-import com.sky.anno.ValidIdCard;
+import com.sky.annoaction.ValidIdCard;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
