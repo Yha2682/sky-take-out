@@ -2,6 +2,7 @@ package com.sky.config;
 
 import com.sky.interceptor.JwtTokenAdminInterceptor;
 import com.sky.json.JacksonObjectMapper;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -73,6 +74,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         log.info("开始静态资源映射.....");
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        //配置好静态资源路径（有改动的地方）
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:E:/SpringBoot/sky-take-out/images/");
     }
 
     /**
