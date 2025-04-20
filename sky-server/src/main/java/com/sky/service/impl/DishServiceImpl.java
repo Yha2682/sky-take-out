@@ -74,6 +74,10 @@ public class DishServiceImpl implements DishService {
 
     }
 
+    /**
+     * 批量删除菜品
+     * @param ids
+     */
     @Override
     public void deleteBatch(List<Long> ids) {
        //正在起售的菜品不能删
@@ -94,11 +98,16 @@ public class DishServiceImpl implements DishService {
 
 
        //删除菜品
-        for (Long id : ids) {
+        /*for (Long id : ids) {
             dishMapper.deleteById(id);
             //删除关联的口味数据
             dishFlavorMapper.deleteByDishId(id);
-        }
+        }*/
+        //根据菜品ID集合批量删除菜品数据 sql: delete from dish where id in (?,?,?)
+        dishMapper.deleteByIds(ids);
+
+        //根据菜品ID集合批量删除关联的口味数据 sql: delete from dish_flavor where dishId in (?,?,?)
+        dishFlavorMapper.deleteByDishIds(ids);
     }
 
     /**
@@ -120,6 +129,7 @@ public class DishServiceImpl implements DishService {
 
     /**
      * 修改菜品
+     * @param dishDTO
      */
     @Override
     public void updateDish(@Valid DishDTO dishDTO) {
@@ -141,6 +151,7 @@ public class DishServiceImpl implements DishService {
             //向口味表插入数据
             dishFlavorMapper.insertBatch(flavors);
         }
+
     }
 
 }

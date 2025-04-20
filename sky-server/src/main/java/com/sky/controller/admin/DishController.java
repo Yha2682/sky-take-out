@@ -72,6 +72,12 @@ public class DishController {
         DishVO dishVO =dishService.getDishById(id);
         return Result.success(dishVO);
     }
+
+    /**
+     * 修改菜品
+     * @param dishDTO
+     * @return
+     */
     @PutMapping
     @ApiOperation(value = "修改菜品")
     public Result<Object> updateDish(@Valid @RequestBody DishDTO dishDTO) {

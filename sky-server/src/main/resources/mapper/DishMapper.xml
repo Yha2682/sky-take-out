@@ -23,6 +23,12 @@
         </set>
         where id = #{id}
     </update>
+    <delete id="deleteByIds">
+        delete from dish where id in
+                         <foreach collection="ids" separator="," open="(" close=")" item="id">
+                             #{id}
+                         </foreach>
+    </delete>
     <select id="pageQuery" resultType="com.sky.vo.DishVO">
 # 左连接查询 dish d  category c
         select d.* , c.name as categoryName from dish d left outer join category c on d.category_id = c.id
