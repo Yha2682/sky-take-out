@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -49,7 +50,7 @@ public class DishServiceImpl implements DishService {
         //向口味表插入N条数据
         List<DishFlavor> flavors = dishDTO.getFlavors();
 
-        if (flavors != null && flavors.size() > 0) {
+        if (flavors != null && !flavors.isEmpty()) {
             flavors.forEach(dishflavor -> {
                 dishflavor.setDishId(dishId);
             });
@@ -152,6 +153,12 @@ public class DishServiceImpl implements DishService {
             dishFlavorMapper.insertBatch(flavors);
         }
 
+    }
+
+    @Override
+    public List<Dish> list(Long categoryId) {
+        List<Dish> dish = dishMapper.listByCategoryId(categoryId);
+        return dish;
     }
 
 }
