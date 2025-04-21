@@ -74,6 +74,11 @@ public class DishController {
         return Result.success(dishVO);
     }
 
+    /**
+     * 根据ID返回菜品数组
+     * @param categoryId
+     * @return
+     */
     @GetMapping("/list")
     public Result<List<Dish>> listDish(Long categoryId) {
         List<Dish> dish = dishService.list(categoryId);
@@ -91,4 +96,5 @@ public class DishController {
         dishService.updateDish(dishDTO);
         return Result.success();
     }
+
 }

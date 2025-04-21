@@ -26,10 +26,10 @@ public interface SetmealMapper {
 
     /**
      * 更新菜品
-     * @param setmealDTO
+     * @param setmeal
      */
     @AutoFile(OperationType.UPDATE)
-    void update(SetmealDTO setmealDTO);
+    void update(Setmeal setmeal);
 
     /**
      * 新增菜品
@@ -44,4 +44,17 @@ public interface SetmealMapper {
      * @return
      */
     Page<SetmealVO> page(SetmealPageQueryDTO setmealPageQueryDTO);
+
+    /**
+     * 根据id查询数据
+     * @param id
+     * @return
+     */
+    Setmeal getById(Long id);
+
+    /**
+     * 根据ID批量删除套餐
+     * @param ids
+     */
+    void deleteByIds(List<Long> ids);
 }
